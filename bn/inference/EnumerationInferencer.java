@@ -1,14 +1,17 @@
 package bn.inference;
+import bn.core.Inferencer;
+import bn.core.RandomVariable;
+import bn.core.Assignment;
+import bn.core.BayesianNetwork;
+import bn.core.Distribution;
 
-import bn.core.*;
-
-public class EnumerationInferencer {
+public class EnumerationInferencer implements Inferencer{
     
     public EnumerationInferencer() {
 
     }
-
-    public EnumerationInferencer query (RandomVariable a, Assignment e, BayesianNetwork b) {
-        return new EnumerationInferencer(); //TODO: CHANGE!!!
+    
+    public Distribution query (RandomVariable a, Assignment e, BayesianNetwork b) {
+        //TODO: CHANGE!!!
     }
 }

@@ -1,5 +1,6 @@
 package bn.core;
 
+
 /**
  * An Inferencer for Bayesian networks computes the posterior (conditional)
  * distribution of a query variable given evidence (values for all, some,

@@ -1,7 +1,6 @@
 package bn.examples;
 
 import java.util.Set;
-
 import bn.base.BayesianNetwork;
 import bn.base.BooleanRange;
 import bn.base.BooleanValue;
@@ -13,6 +12,7 @@ import bn.core.CPT;
 import bn.core.RandomVariable;
 import bn.inference.EnumerationInferencer;
 import util.ArraySet;
+import bn.core.Distribution;
 
 /**
  * The very simple BayesianNetwork from the CSC242 Project 3 description,
@@ -95,7 +95,7 @@ public class Project3SmallNetwork extends BayesianNetwork {
 		//             = alpha*<0.6*0.2*0.1, 0.4*0.9*0.2>
 		//             = alpha*<0.012, 0.072> = <0.142857142857143, 0.857142857142857>
 		System.out.println("P(A|b,high) = alpha*<0.012, 0.072> = <0.142857142857143, 0.857142857142857>");
-		EnumerationInferencer dist = exact.query(bn.A, e, bn);
+		Distribution dist = exact.query(bn.A, e, bn);
 		System.out.println(dist);
 
 		e = new bn.base.Assignment();
