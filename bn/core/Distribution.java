@@ -8,7 +8,7 @@ import java.util.Map;
  * 0 and 1, inclusive, and sum to 1).
  */
 public interface Distribution extends Map<Value,Double> {
-	
+
 	public RandomVariable getVariable();
 	
 	public void set(Value value, double probability);
