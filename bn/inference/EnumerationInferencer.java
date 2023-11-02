@@ -2,11 +2,12 @@ package bn.inference;
 import bn.core.RandomVariable;
 import bn.core.Assignment;
 import bn.core.BayesianNetwork;
+import bn.core.Inference;
 import java.util.List;
 import bn.base.Distribution;
 import bn.base.Value;
 
-public class EnumerationInferencer{
+public class EnumerationInferencer implements Inference{
     
     public EnumerationInferencer() {
 
