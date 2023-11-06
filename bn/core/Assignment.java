@@ -29,4 +29,5 @@ public interface Assignment extends Map<RandomVariable,Value> {
 	 */
 	public Assignment copy();
 
+	public boolean isConsistent(bn.core.Assignment e);
 }
