@@ -119,16 +119,6 @@ public class Assignment extends ArrayMap<RandomVariable,Value> implements bn.cor
 			return results;
 		}
 	}
-	public boolean isConsistent(bn.core.Assignment e) {
-    	for (RandomVariable rv : e.keySet()) {
-    		if (this.containsKey(rv)) {
-    			if (!(this.get(rv).equals(e.get(rv)))) {
-    				return false;
-    			}
-    		}
-    	}
-		return true;
-	}
 	public static void main(String[] argv) {
 		Value a1 = new StringValue("a1");
 		Value a2 = new StringValue("a2");

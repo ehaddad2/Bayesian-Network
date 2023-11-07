@@ -9,11 +9,11 @@ import org.xml.sax.SAXException;
 
 import bn.core.*;
 import bn.base.Assignment;
-import bn.base.BooleanValue;
 import bn.base.StringValue;
 import bn.inference.EnumerationInferencer;
+import bn.inference.RSampleInferencer;
 import bn.parser.XMLBIFParser;
-import bn.base.Value;
+import bn.core.Value;
 
 public class Main {
 
@@ -22,7 +22,7 @@ public class Main {
         XMLBIFParser parser = new XMLBIFParser();
 
         try {
-            String filename = "/Users/elias/repos/Java Repos/CS 242/Bayesian Network/bn/examples/aima-alarm.xml";
+            String filename = "/Users/elias/repos/Java Repos/CS 242/Bayesian Network/bn/examples/car-starts.xml";
             if (args.length > 0) {
                 filename = args[0];
             }
@@ -43,15 +43,15 @@ public class Main {
                 String[] parts = line.split(",");
                 if (parts.length == 2) {
                     RandomVariable eVar = network.getVariableByName(parts[0]);
-                    StringValue s = new StringValue(parts[1]);
-                    evidence.put(eVar, (Value)s);
+                    Value s = new StringValue(parts[1]);
+                    evidence.put(eVar, s);
                 } else {
                     System.out.println("Invalid evidence format. Please try again.");
                 }
             }
 
             // Perform inference
-            EnumerationInferencer inferencer = new EnumerationInferencer();
+            RSampleInferencer inferencer = new RSampleInferencer(1000);
             Distribution distribution = inferencer.query(queryVariable, evidence, network);
 
             // Output the result
