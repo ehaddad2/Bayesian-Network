@@ -16,28 +16,25 @@ import bn.core.Value;
 
 public class RSampleInferencer implements Inference {
 	
-	private int N;
+	private int numSamples;
 	
-	public RSampleInferencer(int n) {
-        this.N = n;
+	public RSampleInferencer(int numSamples) {
+        this.numSamples = numSamples;
 	}
 	
 	public Assignment priorSample(BayesianNetwork bn) {
+		//get topological sorted list of bn nodes
+		List<RandomVariable> bnNodes = bn.getVariablesSortedTopologically();
 		Assignment e = new bn.base.Assignment();
-		
-		// get all random variables in bn
-		List<RandomVariable> rvs = bn.getVariablesSortedTopologically();
-		
-		for (RandomVariable rv : rvs) {
-			// generate a random variable between 0 and 1
+
+		for (RandomVariable rVar : bnNodes) {
 			Random random = new java.util.Random();
 			double randnum = random.nextDouble();
-			
-			// for each value in RV's domain
-			for (Value val : rv.getRange()) {	
-				e.put(rv, val);
-				randnum -= bn.getProbability(rv, e);
-				if (randnum <= 0) {
+            
+			for (Value val : rVar.getRange()) {	
+				e.put(rVar, val);
+				randnum -= bn.getProbability(rVar, e);
+				if (randnum <= 0) {//break if we exceeded bound (ie found right assignment)
 					break;
 				}
 			}
@@ -49,17 +46,16 @@ public class RSampleInferencer implements Inference {
     
 	public bn.core.Distribution query(RandomVariable X, Assignment e, BayesianNetwork bn) {
 
-		// store counts for each value
 		bn.core.Distribution valueCnt = new Distribution(X);
-		for (Value val : X.getRange()) {
+		for (Value val : X.getRange()) {//init distribution
 			valueCnt.put(val, 0.0);
 		}
 		
-		for(int j = 1; j <= N; j++) {
-			Assignment eps = priorSample(bn);
+		for(int j = 1; j <= numSamples; j++) {
+			Assignment psEvidence = priorSample(bn);
 
-			if (eps.isConsistent(e)) {
-				valueCnt.put(eps.get(X), valueCnt.get(eps.get(X)) + 1);
+			if (matches(psEvidence,e)) {//ensure evidence matches
+				valueCnt.put(psEvidence.get(X), valueCnt.get(psEvidence.get(X)) + 1);
 			}
 		}
 		
@@ -67,6 +63,19 @@ public class RSampleInferencer implements Inference {
 		return valueCnt;
 	}
 	
+    //method for ensuring query evidence matches each assignment the sample vars take on
+    public static Boolean matches(Assignment a1, Assignment a2) {
+
+        for (RandomVariable rv : a2.keySet()) {
+    		if (a1.containsKey(rv)) {
+    			if (!(a1.get(rv).equals(a2.get(rv)))) {
+    				return false;
+    			}
+    		}
+    	}
+
+        return true;
+    }
 	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
 
 	}
