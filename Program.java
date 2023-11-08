@@ -1,4 +1,4 @@
-package main;
+
 
 import java.lang.String;
 import java.io.BufferedReader;
@@ -17,7 +17,7 @@ import bn.parser.XMLBIFParser;
 import bn.core.Value;
 
 
-public class test {
+public class Program {//main method for running all inferences and taking in user input
 
     public static void main(String[] args) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -28,7 +28,7 @@ public class test {
             if (args.length > 0) {
                 filename = args[0];
             } else {
-                System.out.println("Which type of example do you want to run? Enter the path to the XML/BIF file:");
+                System.out.println("Which type of example do you want to run? Enter the path to the XML file:");
                 filename = reader.readLine();
             }
             
